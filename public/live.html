@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<style type="text/css">
+		* {
+			outline: 0;
+			margin: 0;
+			padding: 0;
+			gap: 0;
+			border: 0;
+		}
+
+		html {
+			background-color: rgba(0, 0, 0, 1.0);
+		}
+
+		iframe {
+			display: none;
+			height: 100vh;
+			width: 100vw;
+		}
+	</style>
+</head>
+<body>
+	<iframe></iframe>
+	<script type="text/javascript">
+		var iframe = document.querySelector("iframe");
+		
+		window.addEventListener("click", function() {
+			iframe.requestFullscreen();
+
+			iframe.style.display = "flex";
+
+			iframe.src = "/";
+
+			setInterval(function() {
+				iframe.src += "";
+			}, 1000);
+		});
+
+	</script>
+</body>
+</html>

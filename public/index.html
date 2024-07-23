@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+
+	<title>Projeto Monitor</title>
+
+	<link rel="stylesheet" type="text/css" href="/public/style.css">
+</head>
+<body>
+	<line>
+		<item>
+			<title>Hora</title>
+			<value id="hour">00</value>
+		</item>
+		<item>
+			<value>:</value>
+		</item>
+		<item>
+			<title>Minuto</title>
+			<value id="minute">00</value>
+		</item>
+		<item>
+			<value>:</value>
+		</item>
+		<item>
+			<title>Segundo</title>
+			<value id="second">00</value>
+		</item>
+	</line>
+	<line>
+		<item>
+			<title>Notificações</title>
+			<value id="notifications">0</value>
+		</item>
+		<item>
+			<title>Temperatura</title>
+			<type>
+				<value id="temperature">0</value>
+				<name>°C</name>
+			</type>
+		</item>
+		<item>
+			<title>Humidade</title>
+			<type>
+				<value id="humidity">0</value>
+				<name>%</name>
+			</type>
+		</item>
+	</line>
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="/public/script.js"></script>
+</body>
+</html>
