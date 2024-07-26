@@ -18,7 +18,7 @@ export default class Sigaa {
 
 			var unRead = await this.getCaixaPostal();
 
-			if (unRead) {
+			if (typeof unRead == "number") {
 				callback("notifications", unRead);
 			} else {
 				await this.getSession();
@@ -68,14 +68,18 @@ export default class Sigaa {
 
 		var text = await f.text();
 
+		if (text.split(">")[0] == "<script") {
+			return;
+		}
+
 		if (text.includes("Cx. Postal")) {
 			text = text.split("Cx. Postal <font color=\"red\" style=\"font-size:0.7em;\">(")[1];
 
 			text = text.split(")")[0];
 
-			return text;
-		} else {
-			return "0";
+			return parseInt(text);
 		}
+
+		return 0;
 	}
 }
