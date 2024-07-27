@@ -8,8 +8,15 @@ export default class Weather {
 		while (true) {
 			var weather = await this.getWeather();
 
-			callback("temperature", weather.sensation);
-			callback("humidity", weather.humidity);
+			console.log(weather);
+
+			if (typeof weather.sensation == "number") {
+				callback("temperature", weather.sensation);
+			}
+
+			if (typeof weather.humidity == "number") {
+				callback("humidity", weather.humidity);
+			}
 
 			await Util.delay(15 * 60 * 1000);
 		}
