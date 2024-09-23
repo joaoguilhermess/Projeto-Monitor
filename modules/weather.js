@@ -8,8 +8,6 @@ export default class Weather {
 		while (true) {
 			var weather = await this.getWeather();
 
-			console.log(weather);
-
 			if (typeof weather.sensation == "number") {
 				callback("temperature", weather.sensation);
 			}

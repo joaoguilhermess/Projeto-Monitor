@@ -7,7 +7,10 @@ class Monitor {
 		this.temperature = document.querySelector("#temperature");
 		this.humidity = document.querySelector("#humidity");
 
-		this.addToggle();
+		this.lights = [1, 1/2, 1/4, 1/8, 0];
+		this.light = 0;
+
+		this.addLight();
 
 		this.addFullscreen();
 
@@ -22,12 +25,24 @@ class Monitor {
 		});
 	}
 
-	static addToggle() {
+	static addLight() {
+		var context = this;
+
 		window.addEventListener("click", function() {
 			if (document.fullscreen) {
-				document.body.classList.toggle("dark");
+				context.updateLight();
 			}
 		});
+	}
+
+	static updateLight() {
+		this.light += 1;
+
+		if (this.light > this.lights.length - 1) {
+			this.light = 0;
+		}
+
+		document.body.style.color = "rgba(200, 200, 200, " + this.lights[this.light] + ")";
 	}
 
 	static addFullscreen() {

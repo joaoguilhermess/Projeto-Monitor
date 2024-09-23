@@ -6,7 +6,7 @@ import Data from "./data.js";
 
 class Main {
 	static async Init() {
-		Server.Init(3000);
+		Server.Init(4000);
 
 		Server.registryFile("/", Util.joinPath("public", "index.html"));
 
