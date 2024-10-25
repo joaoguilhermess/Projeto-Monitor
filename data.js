@@ -4,19 +4,13 @@ export default class Data {
 	static Init() {
 		this.folder = "./data";
 
-		this.verifyFolder();
-	}
-
-	static verifyFolder() {
-		if (!Util.verifyPath(this.folder)) {
-			Util.createFolder(this.folder);
-		}
+		Util.ensureFolder(this.folder);
 	}
 
 	static read(file) {
 		file = Util.joinPath(this.folder, file);
 
-		this.verifyFolder();
+		Util.ensureFolder(this.folder);
 
 		if (Util.verifyPath(file)) {
 			try {
@@ -28,7 +22,7 @@ export default class Data {
 	static save(file, content) {
 		file = Util.joinPath(this.folder, file);
 
-		this.verifyFolder();
+		Util.ensureFolder(this.folder);
 
 		Util.writeJSON(file, content);
 	}

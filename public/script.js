@@ -3,7 +3,7 @@ class Monitor {
 		this.hour = document.querySelector("#hour");
 		this.minute = document.querySelector("#minute");
 		this.second = document.querySelector("#second");
-		this.notifications = document.querySelector("#notifications");
+		// this.notifications = document.querySelector("#notifications");
 		this.temperature = document.querySelector("#temperature");
 		this.humidity = document.querySelector("#humidity");
 
@@ -60,7 +60,7 @@ class Monitor {
 
 		socket.on("update", function(name, value) {
 			var items = {
-				"notifications": context.notifications,
+				// "notifications": context.notifications,
 				"temperature": context.temperature,
 				"humidity": context.humidity,
 			}

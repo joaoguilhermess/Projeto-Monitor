@@ -1,7 +1,8 @@
 {
 	"enabled": [
-		"sigaa.js",
 		"weather.js"
 	],
-	"disabled": []
+	"disabled": [
+		"sigaa.js"
+	]
 }

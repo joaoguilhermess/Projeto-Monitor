@@ -21,6 +21,8 @@ export default class Weather {
 	}
 
 	static async getWeather() {
+		await Util.delay(1000);
+
 		var f = await fetch("http://apiadvisor.climatempo.com.br/api/v1/weather/locale/" + this.city + "/current?token=" + this.token);
 
 		var json = await f.json();

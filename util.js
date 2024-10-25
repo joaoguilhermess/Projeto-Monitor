@@ -34,6 +34,12 @@ export default class Util {
 		return fs.readdirSync(path);
 	}
 
+	static ensureFolder(path) {
+		if (!Util.verifyPath(path)) {
+			return Util.createFolder(path);
+		}
+	}
+
 	static delay(time) {
 		return new Promise(function(resolve, reject) {
 			setTimeout(resolve, time);

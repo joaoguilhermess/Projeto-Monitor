@@ -3,36 +3,52 @@ import Util from "../util.js";
 
 export default class Sigaa {
 	static async Init(callback) {
+		return;
+
 		this.file = "./sigaa.json";
 
+		this.delay = 1000;
+
 		while (true) {
-			this.session = Data.read(this.file);
+			this.read();
 
-			if (!this.session) {
-				await this.getSession();
+			if (this.data) {
+				if (!this.data.session) {
+					await this.login();
+				}
 			} else {
-				this.session = this.session.session;
-			}
+				this.data = {
+					"user": "",
+					"password": "",
+					"session": ""
+				};
 
-			await this.login();
+				this.save();
+
+				return;
+			}
 
 			var unRead = await this.getCaixaPostal();
 
 			if (typeof unRead == "number") {
 				callback("notifications", unRead);
 			} else {
-				await this.getSession();
-
 				await this.login();
-
-				await this.getCaixaPostal();
 			}
-
-			await Util.delay(1000);
 		}
+	}
+
+	static read() {
+		this.data = Data.read(this.file);
+	}
+
+	static save() {
+		Data.save(this.file, this.data);
 	}
 	
 	static async getSession() {
+		await Util.delay(this.delay);
+
 		var f = await fetch("https://www.sigaa.ufs.br/sigaa/verTelaLogin.do");
 
 		await f.text();
@@ -41,28 +57,34 @@ export default class Sigaa {
 
 		cookie = cookie.split(";")[0];
 
-		this.session = cookie;
-
-		Data.save(this.file, {session: this.session});
+		this.data.session = cookie;
 	}
 
 	static async login() {
+		await this.getSession();
+
+		await Util.delay(this.delay);
+
 		var f = await fetch("https://www.sigaa.ufs.br/sigaa/logar.do?dispatch=logOn", {
 			"method": "POST",
 			"headers": {
 				"content-type": "application/x-www-form-urlencoded",
-				"cookie": this.session + "; www.sigaa.ufs.br=cookieUfs"
+				"cookie": this.data.session + "; www.sigaa.ufs.br=cookieUfs"
 			},
-			"body": "width=1366&height=768&urlRedirect=&acao=&acessibilidade=&user.login=joaoguilhermess&user.senha=jg%231453647"
+			"body": "width=1366&height=768&urlRedirect=&acao=&acessibilidade=&user.login=" + encodeURIComponent(this.data.user) + "&user.senha=" + encodeURIComponent(this.data.password)
 		});
 
 		var text = await f.text();
+
+		this.save();
 	}
 
 	static async getCaixaPostal() {
+		await Util.delay(this.delay);
+
 		var f = await fetch("https://www.sigaa.ufs.br/sigaa/verMenuPrincipal.do", {
 			"headers": {
-				"cookie": this.session + "; www.sigaa.ufs.br=cookieUfs"
+				"cookie": this.data.session + "; www.sigaa.ufs.br=cookieUfs"
 			}
 		});
 
