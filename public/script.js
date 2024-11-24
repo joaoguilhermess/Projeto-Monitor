@@ -85,7 +85,7 @@ class Monitor {
 
 			setInterval(function() {
 				context.updateClock();
-			});
+			}, 1000/5);
 		}, 1000 - Date.now().toString().slice(-3));
 	}
 	
