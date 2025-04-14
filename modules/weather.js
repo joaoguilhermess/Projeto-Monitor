@@ -37,8 +37,6 @@ export default class Weather {
 
 		var json = await f.json();
 
-		console.log(json);
-
 		return {
 			temperature: json.current.apparent_temperature,
 			humidity: json.current.relative_humidity_2m
