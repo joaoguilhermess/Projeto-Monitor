@@ -42,7 +42,7 @@ class Monitor {
 			this.light = 0;
 		}
 
-		document.body.style.color = "rgba(200, 200, 200, " + this.lights[this.light] + ")";
+		document.body.style.color = "rgba(255, 0, 0, " + this.lights[this.light] + ")";
 	}
 
 	static addFullscreen() {
