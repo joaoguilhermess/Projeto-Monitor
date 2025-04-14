@@ -40,6 +40,6 @@ export default class Weather {
 		return {
 			temperature: json.current.apparent_temperature,
 			humidity: json.current.relative_humidity_2m
-		}
+		};
 	}
 }
