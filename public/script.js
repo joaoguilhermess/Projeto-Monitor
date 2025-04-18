@@ -3,7 +3,6 @@ class Monitor {
 		this.hour = document.querySelector("#hour");
 		this.minute = document.querySelector("#minute");
 		this.second = document.querySelector("#second");
-		// this.notifications = document.querySelector("#notifications");
 		this.temperature = document.querySelector("#temperature");
 		this.humidity = document.querySelector("#humidity");
 
@@ -17,12 +16,6 @@ class Monitor {
 		this.InitSocketIO();
 
 		this.addClock();
-	}
-
-	static addOnLoad() {
-		window.addEventListener("load", function() {
-			document.body.style.display = "flex";
-		});
 	}
 
 	static addLight() {
@@ -46,9 +39,13 @@ class Monitor {
 	}
 
 	static addFullscreen() {
-		window.addEventListener("click", function() {
+		var context = this;
+
+		window.addEventListener("click", async function() {
 			if (!document.fullscreen) {
 				document.body.requestFullscreen();
+
+				context.wakeLock = await navigator.wakeLock.request("screen");
 			}
 		});
 	}
