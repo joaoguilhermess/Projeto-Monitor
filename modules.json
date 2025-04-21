@@ -2,7 +2,5 @@
 	"enabled": [
 		"weather.js"
 	],
-	"disabled": [
-		"sigaa.js"
-	]
+	"disabled": []
 }

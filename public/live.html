@@ -1,46 +1,97 @@
-<!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title></title>
-	<style type="text/css">
-		* {
-			outline: 0;
-			margin: 0;
-			padding: 0;
-			gap: 0;
-			border: 0;
-		}
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-		html {
-			background-color: rgba(0, 0, 0, 1.0);
-		}
+		<title>Projeto Monitor Live</title>
 
-		iframe {
-			display: none;
-			height: 100vh;
-			width: 100vw;
-		}
-	</style>
-</head>
-<body>
-	<iframe></iframe>
-	<script type="text/javascript">
-		var iframe = document.querySelector("iframe");
-		
-		window.addEventListener("click", function() {
-			iframe.requestFullscreen();
+		<style type="text/css">
+			* {
+				outline: 0;
+				margin: 0;
+				padding: 0;
+				border: 0;
+				gap: 0;
+			}
 
-			iframe.style.display = "flex";
+			html {
+				display: flex;
+				height: 100%;
+				width: 100%;
+				background-color: rgba(0, 0, 0, 1.0);
+			}
 
-			iframe.src = "/";
+			body {
+				display: flex;
+				height: 100%;
+				width: 100%;
+			}
 
-			setInterval(function() {
-				iframe.src += "";
-			}, 1000);
-		});
+			iframe {
+				display: none;
+				height: 100%;
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<iframe id="iframe1"></iframe>
+		<iframe id="iframe2"></iframe>
+		<script type="text/javascript">
+			class Live {
+				static Init() {
+					this.iframe1 = document.querySelector("#iframe1");
+					this.iframe2 = document.querySelector("#iframe2");
 
-	</script>
-</body>
+					this.delay = 1000 / 2;
+
+					this.addFullscreen();
+				}
+
+				static addFullscreen() {
+					var context = this;
+
+					window.addEventListener("click", async function() {
+						if (!document.fullscreen) {
+							document.body.requestFullscreen();
+
+							// await navigator.wakeLock.request("screen");
+
+							context.start();
+						}
+					});
+				}
+
+				static start() {
+					var context = this;
+
+					this.iframe1.addEventListener("load", function() {
+						console.log("A");
+
+						context.iframe1.style.display = "flex";
+						context.iframe2.style.display = "none";
+
+						setTimeout(function() {
+							context.iframe2.src = "/";
+						}, context.delay);
+					});
+
+					this.iframe2.addEventListener("load", function() {
+						console.log("B");
+
+						context.iframe2.style.display = "flex";
+						context.iframe1.style.display = "none";
+
+						setTimeout(function() {
+							context.iframe1.src = "/";
+						}, context.delay);
+					});
+
+					this.iframe1.src = "/";
+				}
+			}
+
+			Live.Init();
+		</script>
+	</body>
 </html>

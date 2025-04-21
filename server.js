@@ -1,28 +1,33 @@
+import bodyParser from "body-parser";
 import express from "express";
 import Util from "./util.js";
 import http from "http";
 
 export default class Server {
-	static Init(port) {
+	static Init() {
 		var app = express();
 
 		app.disable("x-powered-by");
 
-		var server = http.createServer(app);
+		app.use(bodyParser.json());
 
-		this.port = port;
+		var server = http.createServer(app);
 
 		this.app = app;
 		this.server = server;
 	}
 
-	static sendFile(path, response) {
-		if (Util.verifyPath(path)) {
-			if (Util.readStats(path).isFile()) {
-				var stream = Util.readStream(path);
+	static async sendFile(path, response) {
+		if (await Util.verifyPath(path) && await Util.isFile(path)) {
+			var stream = Util.readStream(path);
 
-				return stream.pipe(response);
-			}
+			var args = path.split(".");
+
+			var extension = args[args.length - 1];
+
+			response.contentType(extension);
+
+			return stream.pipe(response);
 		}
 
 		return response.sendStatus(404);
@@ -48,15 +53,17 @@ export default class Server {
 		});
 	}
 
-	static start() {
+	static async start(port) {
 		this.app.use(function(request, response) {
 			response.sendStatus(404);
 		});
 
 		var context = this;
 
-		return new Promise(function(resolve, reject) {
-			context.server.listen(context.port, resolve);
+		await new Promise(function(resolve, reject) {
+			context.server.listen(port, resolve);
 		});
+
+		this.port = port;
 	}
 }

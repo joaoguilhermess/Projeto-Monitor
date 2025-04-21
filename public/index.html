@@ -1,51 +1,96 @@
-<!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-	<title>Projeto Monitor</title>
+		<title>Projeto Monitor</title>
 
-	<link rel="stylesheet" type="text/css" href="/public/style.css">
-</head>
-<body>
-	<line>
-		<item>
-			<title>Horas</title>
-			<value id="hour">00</value>
-		</item>
-		<item>
-			<value>:</value>
-		</item>
-		<item>
-			<title>Minutos</title>
-			<value id="minute">00</value>
-		</item>
-		<item>
-			<value>:</value>
-		</item>
-		<item>
-			<title>Segundos</title>
-			<value id="second">00</value>
-		</item>
-	</line>
-	<line>
-		<item>
-			<title>Temperatura</title>
-			<type>
-				<value id="temperature">0</value>
-				<name>°C</name>
-			</type>
-		</item>
-		<item>
-			<title>Humidade</title>
-			<type>
-				<value id="humidity">0</value>
-				<name>%</name>
-			</type>
-		</item>
-	</line>
-	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
-	<script type="text/javascript" src="/public/script.js"></script>
-</body>
+		<link rel="stylesheet" type="text/css" href="/public/style.css">
+	</head>
+	<body>
+		<container>
+			<line>
+				<item>
+					<name>Horário</name>
+					<content>
+						<value id="hour">00</value>
+						<value>:</value>
+						<value id="minute">00</value>
+						<value>:</value>
+						<value id="second">00</value>
+					</content>
+				</item>
+				<separator></separator>
+				<item>
+					<name>Dia</name>
+					<content>
+						<value id="date">00</value>
+					</content>
+				</item>
+				<item>
+					<name>Mês</name>
+					<content>
+						<value id="month">00</value>
+					</content>
+				</item>
+				<item>
+					<name>Ano</name>
+					<content>
+						<value id="year">0000</value>
+					</content>
+				</item>
+			</line>
+			<line>
+				<item>
+					<name>Temperatura</name>
+					<content>
+						<value id="temperature">00.0</value>
+						<type>°C</type>
+					</content>
+				</item>
+				<separator></separator>
+				<item>
+					<name>Sensação</name>
+					<content>
+						<value id="sensation">00.0</value>
+						<type>°C</type>
+					</content>
+				</item>
+				<separator></separator>
+				<item>
+					<name>Humidade</name>
+					<content>
+						<value id="humidity">00</value>
+						<type>%</type>
+					</content>
+				</item>
+				<separator></separator>
+				<item>
+					<name>Chuva</name>
+					<content>
+						<value id="rain">0</value>
+						<type>%</type>
+					</content>
+				</item>
+			</line>
+			<line>
+				<item>
+					<name>Volta As Aulas</name>
+					<content>
+						<value id="classes">25</value>
+						<type>Dias</type>
+					</content>
+				</item>
+				<item>
+					<name>Meu Aniversário</name>
+					<content>
+						<value id="birthday">125</value>
+						<type>Dias</type>
+					</content>
+				</item>
+			</line>
+		</container>
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="/public/script.js"></script>
+	</body>
 </html>

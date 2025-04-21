@@ -1,12 +1,11 @@
-import SocketIO from "./socketio.js";
 import Modules from "./modules.js";
 import Server from "./server.js";
+import Socket from "./socket.js";
 import Util from "./util.js";
-import Data from "./data.js";
 
 class Main {
 	static async Init() {
-		Server.Init(4000);
+		await Server.Init();
 
 		Server.registryFile("/", Util.joinPath("public", "index.html"));
 
@@ -14,37 +13,31 @@ class Main {
 
 		var values = {};
 
-		SocketIO.Init(Server.server, function(socket) {
+		Socket.Init(function(socket) {
 			var list = Object.keys(values);
 
 			for (let i = 0; i < list.length; i++) {
-				SocketIO.emit("module", list[i]);
-
-				SocketIO.emit("update", list[i], values[list[i]].value);
+				socket.emit("update", list[i], values[list[i]]);
 			}
 		});
-
-		await Server.start();
-
-		console.log("Ready");
-
-		Data.Init();
 
 		Modules.Init("./modules", "./modules.json");
 
-		Modules.start(function(_module, value) {
-			if (!values[_module]) {
-				SocketIO.emit("module", _module);
-
-				values[_module] = {value: value};
+		await Modules.start(function(name, value) {
+			if (!values[name]) {
+				values[name] = value;
 			}
 
-			if (values[_module].value != value) {
-				SocketIO.emit("update", _module, value);
+			if (values[name] != value) {
+				Socket.emit("update", name, value);
 
-				values[_module].value = value;
+				values[name] = value;
 			}
 		});
+
+		await Server.start(4000);
+		
+		console.log("Ready");
 	}
 }
 

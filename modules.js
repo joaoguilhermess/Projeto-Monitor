@@ -7,7 +7,7 @@ export default class Modules {
 	}
 
 	static async start(callback) {
-		var modules = this.getModules();
+		var modules = await this.getModules();
 
 		for (let i = 0; i < modules.length; i++) {
 			let path = Util.joinPath(this.folder, modules[i]);
@@ -17,31 +17,27 @@ export default class Modules {
 					let file = await import("./" + path);
 
 					if (file.default.Init) {
-						file.default.Init(function(name, value) {
-							callback(name, value);
-						});
+						file.default.Init(callback);
 					}
 				} catch (error) {
-					console.error("error:", error);
+					console.error("Error:", error);
 				}
 			}
 		}
 	}
 
-	static getModules() {
-		if (!Util.verifyPath(this.folder)) {
-			Util.createFolder(this.folder);
-		}
+	static async getModules() {
+		await Util.ensureFolder(this.folder);
 
-		var files = Util.readFolder(this.folder);
+		var files = await Util.readFolder(this.folder);
 
 		var order = {
 			enabled: [],
 			disabled: []
 		};
 
-		if (Util.verifyPath(this.file)) {
-			order = Util.readJSON(this.file);
+		if (await Util.verifyPath(this.file)) {
+			order = await Util.readJSON(this.file);
 		}
 
 		for (let i = 0; i < files.length; i++) {
@@ -70,12 +66,12 @@ export default class Modules {
 			}
 		}
 
-		if (Util.verifyPath(this.file)) {
-			if (Util.readJSON(this.file) != order) {
-				Util.writeJSON(this.file, order);
+		if (await Util.verifyPath(this.file)) {
+			if ((await Util.readJSON(this.file)) != order) {
+				await Util.writeJSON(this.file, order);
 			}
 		} else {
-			Util.writeJSON(this.file, order);
+			await Util.writeJSON(this.file, order);
 		}
 
 		return order.enabled;

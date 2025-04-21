@@ -6,43 +6,61 @@ export default class Util {
 		return path.join(...args);
 	}
 
-	static verifyPath(path) {
-		return fs.existsSync(path);
+	static async verifyPath(path) {
+		try {
+			await fs.promises.access(path);
+
+			return true;
+		} catch {
+			return false;
+		}
 	}
 
-	static readStats(path) {
-		return fs.lstatSync(path);
+	static async readStats(path) {
+		return await fs.promises.lstat(path);
+	}
+
+	static async isFile(path) {
+		return (await this.readStats(path)).isFile();
 	}
 
 	static readStream(path) {
 		return fs.createReadStream(path);
 	}
 
-	static readJSON(path) {
-		return JSON.parse(fs.readFileSync(path).toString());
+	static async readFile(path) {
+		return await fs.promises.readFile(path);
 	}
 
-	static writeJSON(path, content) {
-		return fs.writeFileSync(path, JSON.stringify(content, null, "\t"));
+	static async writeFile(path, content) {
+		return await fs.promises.writeFile(path, content);
 	}
 
-	static createFolder(path) {
-		return fs.mkdirSync(path);
+	static async readJSON(path) {
+		return JSON.parse((await this.readFile(path)).toString());
 	}
 
-	static readFolder(path) {
-		return fs.readdirSync(path);
+	static async writeJSON(path, content) {
+		return await this.writeFile(path, JSON.stringify(content, null, "\t"));
 	}
 
-	static ensureFolder(path) {
-		if (!Util.verifyPath(path)) {
-			return Util.createFolder(path);
+	static async createFolder(path) {
+		return await fs.promises.mkdir(path);
+	}
+
+	static async readFolder(path) {
+		return await fs.promises.readdir(path);
+	}
+
+	static async ensureFolder(path) {
+		if (!await this.verifyPath(path)) {
+			return await this.createFolder(path);
 		}
 	}
 
-	static delay(time) {
-		return new Promise(function(resolve, reject) {
-			setTimeout(resolve, time);
+	static async delay(duration) {
+		return await new Promise(function(resolve, reject) {
+			setTimeout(resolve, duration);
 		});
 	}
 }
