@@ -7,6 +7,8 @@
 
 		<style type="text/css">
 			* {
+				user-select: none;
+				box-sizing: border-box;
 				outline: 0;
 				margin: 0;
 				padding: 0;
@@ -16,21 +18,25 @@
 
 			html {
 				display: flex;
-				height: 100%;
-				width: 100%;
+				height: 100vh;
+				width: 100vw;
 				background-color: rgba(0, 0, 0, 1.0);
 			}
 
 			body {
 				display: flex;
-				height: 100%;
-				width: 100%;
+				height: 100vh;
+				width: 100vw;
 			}
 
 			iframe {
+				position: absolute;
+				left: 0;
+				top: 0;
 				display: none;
-				height: 100%;
-				width: 100%;
+				height: 100vh;
+				width: 100vw;
+				opacity: 0;
 			}
 		</style>
 	</head>
@@ -51,11 +57,9 @@
 				static addFullscreen() {
 					var context = this;
 
-					window.addEventListener("click", async function() {
+					window.addEventListener("click", function() {
 						if (!document.fullscreen) {
 							document.body.requestFullscreen();
-
-							// await navigator.wakeLock.request("screen");
 
 							context.start();
 						}
@@ -65,25 +69,28 @@
 				static start() {
 					var context = this;
 
+					context.iframe1.style.display = "flex";
+					context.iframe2.style.display = "flex";
+
 					this.iframe1.addEventListener("load", function() {
-						console.log("A");
-
-						context.iframe1.style.display = "flex";
-						context.iframe2.style.display = "none";
-
 						setTimeout(function() {
-							context.iframe2.src = "/";
+							context.iframe1.style.opacity = 1;
+							context.iframe2.style.opacity = 0;
+
+							setTimeout(function() {
+								context.iframe2.src = "/";
+							}, context.delay);
 						}, context.delay);
 					});
 
 					this.iframe2.addEventListener("load", function() {
-						console.log("B");
-
-						context.iframe2.style.display = "flex";
-						context.iframe1.style.display = "none";
-
 						setTimeout(function() {
-							context.iframe1.src = "/";
+							context.iframe2.style.opacity = 1;
+							context.iframe1.style.opacity = 0;
+
+							setTimeout(function() {
+								context.iframe1.src = "/";
+							}, context.delay);
 						}, context.delay);
 					});
 

@@ -2,36 +2,9 @@ class Monitor {
 	static Init() {
 		this.items = {};
 
-		this.days = [
-			"Domingo",
-			"Segunda",
-			"Terça",
-			"Quarta",
-			"Quinta",
-			"Sexta",
-			"Sábado"
-		];
-
-		this.months = [
-			"Janeiro",
-			"Fevereiro",
-			"Março",
-			"Abril",
-			"Maio",
-			"Junho",
-			"Julho",
-			"Agosto",
-			"Setembro",
-			"Outubro",
-			"Novembro",
-			"Dezembro"
-		];
-
 		this.addFullscreen();
 
 		this.addClock();
-
-		// this.addBackground();
 
 		this.addSocket();
 	}
@@ -58,24 +31,6 @@ class Monitor {
 				context.update();
 			}, 1000);
 		}, 1000 - parseInt(Date.now().toString().slice(-3)) + (1000 / 20));
-	}
-
-	static addBackground() {
-		var background = document.querySelector("#background");
-
-		var k = 0;
-
-		background.addEventListener("load", function() {
-			console.log("Cat!");
-	
-			k += 1;
-
-			setTimeout(function() {
-				background.src = "https://cataas.com/cat/gif?random=" + k;
-			}, 1000);
-		});
-
-		background.src = "https://cataas.com/cat/gif?random=" + k;
 	}
 
 	static addSocket() {
@@ -109,8 +64,12 @@ class Monitor {
 		this.setValue("minute", this.format(t.getMinutes()));
 		this.setValue("second", this.format(t.getSeconds()));
 
-		this.setValue("day", this.days[t.getDay()]);
-		this.setValue("date", [this.format(t.getDate()), this.months[t.getMonth()], this.format(t.getFullYear(), 4)].join(" de "));
+		this.setValue("date", this.format(t.getDate()));
+		this.setValue("month", this.format(t.getMonth() + 1));
+		this.setValue("year", this.format(t.getFullYear(), 4));
+
+		this.setValue("classes", Math.max(0, Math.floor((((new Date(2025, 5 - 1, 12).getTime()) - Date.now()) / (1000 * 60 * 60 * 24)) + 1)));
+		this.setValue("birthday", Math.max(0, Math.floor((((new Date(2025, 8 - 1, 23).getTime()) - Date.now()) / (1000 * 60 * 60 * 24)) + 1)));
 	}
 
 	static format(number, length = 2) {

@@ -1,0 +1,109 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+@font-face {
+	font-family: "Digital 7";
+	src: url("/public/fonts/DSEG7Classic-Bold.woff2") format("woff2");
+}
+
+* {
+	user-select: none;
+	box-sizing: border-box;
+	outline: 0;
+	padding: 0;
+	border: 0;
+	margin: 0;
+	gap: 0;
+	flex-grow: 0;
+	flex-shrink: 0;
+	line-height: 1em;
+	overflow: hidden;
+}
+
+html {
+	display: flex;
+	height: 100%;
+	width: 100%;
+}
+
+body {
+	display: flex;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 1.0);
+}
+
+/*background-color: rgba(255, 200, 160, 0.1);*/
+
+container {
+	display: flex;
+	height: 100%;
+	flex-grow: 1;
+	flex-direction: column;
+	padding: 24px;
+	gap: 24px;
+	justify-content: space-between;
+}
+
+container line {
+	display: flex;
+	height: fit-content;
+	width: 100%;
+	gap: 24px;
+	overflow: visible;
+}
+
+container line item {
+	display: flex;
+	flex-direction: column;
+	overflow: visible;
+	gap: 6px;
+}
+
+container line item name {
+	display: flex;
+	font-family: "Poppins";
+	font-size: 26px;
+	font-weight: 600;
+	text-transform: uppercase;
+	color: rgba(255, 0, 0, 1.0);
+	overflow: visible;
+}
+
+container line item content {
+	display: flex;
+/*	gap: 6px;*/
+}
+
+container line item content value {
+	display: flex;
+	font-family: "Digital 7";
+	font-size: 60px;
+	font-weight: 900;
+	color: rgba(255, 0, 0, 1.0);
+}
+
+container line item content type {
+	display: flex;
+	font-family: "Poppins";
+	font-size: 30px;
+	font-weight: 600;
+	color: rgba(255, 0, 0, 1.0);
+}
+
+container line separator {
+	display: flex;
+	height: 100%;
+	flex-grow: 1;
+}
+
+container line info {
+	display: flex;
+	flex-grow: 1;
+	width: 100%;
+	font-family: "Poppins";
+	font-size: 24px;
+	font-weight: 600;
+	justify-content: center;
+	align-items: center;
+	color: rgba(100, 0, 0, 1.0);
+}

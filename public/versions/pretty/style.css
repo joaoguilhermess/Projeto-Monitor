@@ -69,8 +69,7 @@ container calendar date {
 	font-family: "Poppins";
 	font-size: 45px;
 	font-weight: 600;
-	line-height: 1em;
-/*	text-transform: uppercase;*/
+	text-transform: uppercase;
 	overflow: visible;
 }
 
@@ -104,9 +103,8 @@ container items item name {
 	font-family: "Poppins";
 	font-size: 35px;
 	font-weight: 600;
-	line-height: 1em;
+	text-transform: uppercase;
 	overflow: visible;
-/*	text-transform: uppercase;*/
 }
 
 container items item value {
@@ -125,6 +123,5 @@ container items item value text {
 	font-family: "Poppins";
 	font-size: 30px;
 	font-weight: 600;
-	line-height: 1em;
-/*	text-transform: uppercase;*/
+	text-transform: uppercase;
 }
