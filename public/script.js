@@ -147,27 +147,21 @@ class Monitor {
 	}
 
 	static addAcelerometer() {
-		var accelerometer = new Accelerometer({frequency: 1});
+		var accelerometer = new Accelerometer({frequency: 2});
 
 		var context = this;
-
-		var last = 0;
 
 		var free = true;
 
 		accelerometer.addEventListener("reading", function() {
 			if (Math.round(accelerometer.z) < -9) {
-				last += 1; 
-			} else { 
-				last = 0;
+				if (free == true) {
+					context.changeMode();
 				
+					free = false;
+				}
+			} else {
 				free = true;
-			}
-
-			if (last >= 2 - 1 && free == true) {
-				free = false;
-
-				context.changeMode();
 			}
 		});
 
