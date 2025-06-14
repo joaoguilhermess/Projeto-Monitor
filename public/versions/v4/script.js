@@ -39,9 +39,7 @@ class Monitor {
 
 		this.addClock();
 
-		this.addChronometer();
-
-		this.addAcelerometer();
+		// this.addAcelerometer();
 
 		this.addUpdate();
 	}
@@ -62,6 +60,8 @@ class Monitor {
 		var k = 0;
 
 		background.addEventListener("load", function() {
+			console.log("Cat!");
+	
 			k += 1;
 
 			setTimeout(function() {
@@ -85,63 +85,18 @@ class Monitor {
 	}
 
 	static addClock() {
-		var context = this;
-
 		this.modes.push({
 			name: "Relógio",
-			start: function() {
-				context.setValue("clock", "");
-			},
-			update: function() {
+			callback: function() {
 				var t = new Date();
 
-				context.setValue("hour", context.format(t.getHours()));
-				context.setValue("minute", context.format(t.getMinutes()));
-				context.setValue("second", context.format(t.getSeconds()));
+				this.setValue("hour", this.format(t.getHours()));
+				this.setValue("minute", this.format(t.getMinutes()));
+				this.setValue("second", this.format(t.getSeconds()));
 
-				context.setValue("day", context.days[t.getDay()]);
+				this.setValue("day", this.days[t.getDay()]);
 
-				context.setValue("date", [context.format(t.getDate()), context.months[t.getMonth()], context.format(t.getFullYear(), 4)].join(" de "));
-			}
-		});
-	}
-
-	static addChronometer() {
-		var context = this;
-
-		var startTime;
-
-		this.modes.push({
-			name: "Cronometro",
-			start: function() {
-				context.setValue("day", "Cronometro");
-
-				context.setValue("date", "");
-
-				startTime = Date.now();
-			},
-			update: function() {
-				var t = new Date(Date.now() - startTime + (1000 * 60 * 60 * 3));
-
-				context.setValue("hour", context.format(t.getHours()));
-				context.setValue("minute", context.format(t.getMinutes()));
-				context.setValue("second", context.format(t.getSeconds()));
-
-				t = new Date();
-
-				context.setValue("clock", [context.format(t.getHours()), context.format(t.getMinutes()), context.format(t.getSeconds())].join(":"));
-			}
-		});
-
-		this.modes.push({
-			name: "Cronometro",
-			start: function() {
-				context.setValue("day", "Cronometro Pausado");
-			},
-			update: function() {
-				var t = new Date();
-
-				context.setValue("clock", [context.format(t.getHours()), context.format(t.getMinutes()), context.format(t.getSeconds())].join(":"));
+				this.setValue("date", [this.format(t.getDate()), this.months[t.getMonth()], this.format(t.getFullYear(), 4)].join(" de "));
 			}
 		});
 	}
@@ -151,63 +106,39 @@ class Monitor {
 
 		var context = this;
 
-		var last = 0;
+		var rad = 180 / Math.PI;
 
-		var free = true;
+		var last = 0;
 
 		accelerometer.addEventListener("reading", function() {
 			if (Math.round(accelerometer.z) < -9) {
 				last += 1; 
-			} else { 
+			} else {
 				last = 0;
-				
-				free = true;
 			}
 
-			if (last >= 2 - 1 && free == true) {
-				free = false;
-
-				context.changeMode();
+			if (last > 5) {
+				last = Infinity;
 			}
+
+			context.setValue("accelerometer", last);
 		});
 
 		accelerometer.start();
 	}
 
 	static addUpdate() {
+		context.modes[context.mode].callback();
+
 		var	context = this;
 
 		setTimeout(function() {
-			context.update();
+			context.modes[context.mode].callback();
 
 			setInterval(function() {
-				context.update();
+				context.modes[context.mode].callback();
 			}, 1000);
 		}, 1000 - parseInt(Date.now().toString().slice(-3)) + (1000 / 20));
-
-		this.update();		
-	}
-
-	static changeMode() {
-		this.mode += 1;
-
-		if (this.mode >= this.modes.length) {
-			this.mode = 0;
-		}
-
-		this.update(true);
-	}
-
-	static update(start) {
-		if (this.modes[this.mode]) {
-			if (start && this.modes[this.mode].start) {
-				this.modes[this.mode].start();
-			}
-		
-			if (this.modes[this.mode].update) {
-				this.modes[this.mode].update();
-			}
-		}
 	}
 
 	static setValue(name, value) {

@@ -10,11 +10,10 @@
 	<body>
 		<img id="background"></img>
 		<container>
-			<bar>
+			<calendar>
 				<date id="day"></date>
 				<date id="date"></date>
-				<digital id="clock"></digital>
-			</bar>
+			</calendar>
 			<clock>
 				<value id="hour">00</value>
 				<value>:</value>
@@ -37,13 +36,19 @@
 						<text>%</text>
 					</value>
 				</item>
-				<item>
+				<!-- <item>
 					<name>Chuva</name>
 					<value>
 						<digital id="precipitationProbability">0</digital>
 						<text>%</text>
 						<digital id="precipitationAmout">0</digital>
 						<text>MM</text>
+					</value>
+				</item> -->
+				<item>
+					<name>Acelerometro</name>
+					<value>
+						<text id="accelerometer"></text>
 					</value>
 				</item>
 			</items>
